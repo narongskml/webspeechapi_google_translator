@@ -38,6 +38,7 @@
                 <option value="th-TH">ภาษาไทย</option>
                 <option value="en-US">ภาษาอังกฤษ</option>
                 <option value="ja-JP">ภาษาญี่ปุ่น</option>
+                <option value="ko-KR">ภาษาเกาหลี</option>
                 <option value="zh-CN">ภาษาจีน</option>
             </select>
             <textarea id="transcript" class="w-full h-24 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="ข้อความที่แปลงจากเสียงหรือพิมพ์ข้อความที่นี่"></textarea>
@@ -48,6 +49,7 @@
                 <option value="en">ภาษาอังกฤษ</option>                
                 <option value="ja">ภาษาญี่ปุ่น</option>
                 <option value="zh">ภาษาจีน</option>
+                <option value="ko">ภาษาเกาหลี</option>
                 <option value="th">ภาษาไทย</option>
             </select>
             <select id="voiceSelect" class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -156,12 +158,13 @@
         function updateVoiceOptions() {
             const target = targetLanguage.value;
             voiceSelect.innerHTML = '<option value="">เลือกเสียง</option>';
-            const langMap = { 'en': 'en-', 'th': 'th-', 'ja': 'ja-', 'zh': 'zh-' };
+            const langMap = { 'en': 'en-', 'th': 'th-', 'ja': 'ja-', 'zh': 'zh-','ko':'ko-' };
             const voiceNameMap = {
                 'en': 'ภาษาอังกฤษ',
                 'th': 'ภาษาไทย',
                 'ja': 'ภาษาญี่ปุ่น',
-                'zh': 'ภาษาจีน'
+                'zh': 'ภาษาจีน',
+                'ko': 'ภาษาเกาหลี'
             };
             const filteredVoices = voices.filter(voice => voice.lang.toLowerCase().startsWith(langMap[target]));
             filteredVoices.forEach(voice => {
@@ -281,7 +284,8 @@
                 'th': 'ภาษาไทย',
                 'en': 'ภาษาอังกฤษ',
                 'ja': 'ภาษาญี่ปุ่น',
-                'zh': 'ภาษาจีน'
+                'zh': 'ภาษาจีน',
+                'ko': 'ภาษาเกาหลี'
             };
             console.log(`แปลเมื่อ: ${timestamp}`);
             console.log(`ภาษาที่ป้อน: ${langNameMap[inputLang]}`);
@@ -307,7 +311,7 @@
 
             const utterance = new SpeechSynthesisUtterance(translatedText);
             utterance.voice = voices.find(voice => voice.name === selectedVoice);
-            utterance.lang = target === 'en' ? 'en-US' : target === 'th' ? 'th-TH' : target === 'ja' ? 'ja-JP' : 'zh-CN';
+            utterance.lang = target === 'en' ? 'en-US' : target === 'th' ? 'th-TH' : target === 'ja' ? 'ja-JP' : target === 'ko' ? 'ko-KR' :'zh-CN';
             utterance.onend = () => {
                 status.textContent = 'อ่านข้อความเสร็จสิ้น';
             };
